@@ -1,14 +1,32 @@
 import React from 'react';
 import './NotePageMain.css';
 import Note from '../Note/Note';
+import ApiContext from '../ApiContext';
 
-export default function NotePageMain(props){
+export default class NotePageMain extends React.Component{
+    static defaultProps={
+        match: {
+            params: {}
+        }
+    }
+    //Need the ApiContext because of the delete button and the need to take off the server
+    static contextType = ApiContext
+//we put in the handleDeleteNote because we implemented the delete button on the Note page and it gets passed through on this one
+    handleDeleteNote = noteId => {
+        this.props.history.push('/')
+    }
+
+    render(){
+        const {notes=[]} = this.context
+        const {noteId} = this.props.match.params
+        const note = findNote(notes, noteId) || {content: ''}
     return(
         <section className='NotePageMain'>
             <Note
-            id={props.note.id}
-            name={props.note.name}
-            modified={props.note.modified}
+            id={note.id}
+            name={note.name}
+            modified={note.modified}
+            onDeleteNote={this.handleDeleteNote}
             />
             <div className='NotePageMain_content'>
                 {props.note.content.split(/\n \r|\n/).map((para,i) =>
@@ -18,9 +36,4 @@ export default function NotePageMain(props){
         </section>
     )
 }
-
-NotePageMain.defaultProps={
-    note: {
-        content: '',
-    }
 }

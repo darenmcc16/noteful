@@ -13,6 +13,6 @@ export default function CircleButton(props){
     )
 }
 
-NavCircleButton.defaultProps ={
+CircleButton.defaultProps ={
     tag: 'a',
 }
