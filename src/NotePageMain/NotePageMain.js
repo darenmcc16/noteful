@@ -2,6 +2,7 @@ import React from 'react';
 import './NotePageMain.css';
 import Note from '../Note/Note';
 import ApiContext from '../ApiContext';
+import {findNote} from '../notes-helpers';
 
 export default class NotePageMain extends React.Component{
     static defaultProps={
@@ -29,7 +30,7 @@ export default class NotePageMain extends React.Component{
             onDeleteNote={this.handleDeleteNote}
             />
             <div className='NotePageMain_content'>
-                {props.note.content.split(/\n \r|\n/).map((para,i) =>
+                {note.content.split(/\n \r|\n/).map((para,i) =>
                 <p key={i}>{para}</p>
                 )}
             </div>

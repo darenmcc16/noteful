@@ -1,3 +1,4 @@
+import { checkPropTypes } from 'prop-types';
 import React from 'react';
 import './CircleButton.css';
 
@@ -16,3 +17,4 @@ export default function CircleButton(props){
 CircleButton.defaultProps ={
     tag: 'a',
 }
+

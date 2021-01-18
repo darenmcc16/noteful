@@ -4,6 +4,8 @@ import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Note.css'
 import config from '../config'
+import ApiContext from '../ApiContext';
+import PropTypes from 'prop-types';
 
 //When we implement the delete button it changes the Note component from a stateless to a stateful
 //so thats why it gets changed from a function to a class
@@ -39,11 +41,12 @@ export default class Note extends React.Component {
         })
     }
     render(){
+      const {name, id, modified} = this.props
   return (
     <div className='Note'>
       <h2 className='Note__title'>
-        <Link to={`/note/${props.id}`}>
-          {props.name}
+        <Link to={`/note/${id}`}>
+          {name}
         </Link>
       </h2>
       <button className='Note__delete' type='button'
@@ -57,12 +60,17 @@ export default class Note extends React.Component {
         <div className='Note__dates-modified'>
           Modified
           {' '}
-          <span className='Date'>
+          {/* <span className='Date'>
             {format(modified, 'Do MMM YYYY')}
-          </span>
+          </span> */}
         </div>
       </div>
     </div>
   )
 }
+}
+
+Note.propTypes = {
+  modified: PropTypes.string,
+  name: PropTypes.string,
 }

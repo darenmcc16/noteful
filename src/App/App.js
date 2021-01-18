@@ -10,6 +10,9 @@ import {getNotesForFolder, findNote, findFolder} from '../notes-helpers';
 import './App.css';
 import ApiContext from '../ApiContext';
 import config from '../config';
+import AddFolder from '../Addfolder/AddFolder';
+import AddNote from '../AddNote/AddNote';
+import AddFolderError from '../AddFolderError';
 
 class App extends Component {
     state = {
@@ -22,7 +25,7 @@ class App extends Component {
             fetch(`${config.API_ENDPOINT}/notes`),
             fetch(`${config.API_ENDPOINT}/folders`)
         ])
-        .then(({notesRes, folderRes}) => {
+        .then(([notesRes, foldersRes]) => {
             if(!notesRes.ok)
             return notesRes.json().then(e => Promise.reject(e));
             if(!foldersRes.ok)
@@ -44,6 +47,18 @@ class App extends Component {
         });
     };
 
+    handleAddFolder = (folder) => {
+        this.setState({
+            folders: [...this.state.folders, folder]
+        });
+    }
+        
+    handleAddNote = (note) => {
+            this.setState({
+                    notes: [...this.state.notes, note]
+            })
+    }
+
     renderNavRoutes() {
         return (
             <>
@@ -52,14 +67,8 @@ class App extends Component {
                         exact
                         key={path}
                         path={path}
-                        render={routeProps => (
-                            <NoteListNav
-                                folders={folders}
-                                notes={notes}
-                                {...routeProps}
-                            />
-                        )}
-                    />
+                        component={NoteListNav}
+                        />
                 ))}
                 <Route path="/note/:noteId" component={NotePageNav} />
                     {/* render={routeProps => {
@@ -96,9 +105,12 @@ class App extends Component {
         const value = {
             notes: this.state.notes,
             folders: this.state.folders,
-            deleteNote: this.handleDeleteNote
+            deleteNote: this.handleDeleteNote,
+            addFolder: this.handleAddFolder,
+            addNote: this.handleAddNote
         };
         return (
+            <AddFolderError>
             <ApiContext.Provider value={value}>
             <div className="App">
                 <nav className="App__nav">{this.renderNavRoutes()}</nav>
@@ -109,8 +121,15 @@ class App extends Component {
                     </h1>
                 </header>
                 <main className="App__main">{this.renderMainRoutes()}</main>
+                <div>
+                    <AddFolder onAddFolder={(folder) => this.handleAddFolder(folder)}/>
+                </div>
+                <div>
+                    <AddNote />
+                </div>
             </div>
             </ApiContext.Provider>
+            </AddFolderError>
         );
     }
 }
