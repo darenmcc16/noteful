@@ -22,7 +22,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "migrate:production": "heroku run npm run migrate",
+    "deploy": "git push heroku main",
+    "postdeploy": "npm run migrate:production"
   },
   "eslintConfig": {
     "extends": [

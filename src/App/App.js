@@ -100,6 +100,7 @@ class App extends Component {
             </>
         );
     }
+    updateNote = () => {};
 
     render() {
         const value = {
