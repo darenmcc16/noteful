@@ -5,7 +5,6 @@ import NoteListNav from '../NoteListNav/NoteListNav'
 import NotePageNav from '../NotePageNave/NotePageNav'
 import NoteListMain from '../NoteListMain/NoteListMain'
 import NotePageMain from '../NotePageMain/NotePageMain'
-//import AddFolder from '../AddFolder/AddFolder'
 import AddFolder from '../AddFolder/AddFolder'
 import AddNote from '../AddNote/AddNote'
 import ApiContext from '../ApiContext'
@@ -42,7 +41,7 @@ class App extends Component {
       })
   }
 
-  handleAddFolder = folder => {
+  handleAddFolder = (folder) => {
     this.setState({
       folders: [
         ...this.state.folders,
@@ -51,7 +50,7 @@ class App extends Component {
     })
   }
 
-  handleAddNote = note => {
+  handleAddNote = (note) => {
     this.setState({
       notes: [
         ...this.state.notes,
@@ -83,11 +82,11 @@ class App extends Component {
         />
         <Route
           path='/add-folder'
-          component={NotePageNav}
+          component={AddFolder}
         />
         <Route
           path='/add-note'
-          component={NotePageNav}
+          component={AddNote}
         />
       </>
     )
@@ -108,14 +107,6 @@ class App extends Component {
           path='/note/:noteId'
           component={NotePageMain}
         />
-        <Route
-          path='/add-folder'
-          component={AddFolder}
-        />
-        <Route
-          path='/add-note'
-          component={AddNote}
-        />
       </>
     )
   }
@@ -127,7 +118,6 @@ class App extends Component {
       addFolder: this.handleAddFolder,
       addNote: this.handleAddNote,
       deleteNote: this.handleDeleteNote,
-      updateNote: this.updateNote
     }
     return (
       <ApiContext.Provider value={value}>
