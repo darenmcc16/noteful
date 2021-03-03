@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import ApiContext from "./ApiContext";
-import config from "./config";
+import ApiContext from '../ApiContext';
+import config from '../config';
 import PropTypes from 'prop-types';
-import ValidationError from './ValidationError';
+import ValidationError from '../ValidationError';
 
 export default class AddFolder extends Component {
   constructor(props) {
