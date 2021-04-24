@@ -23,8 +23,9 @@ export default class AddFolder extends Component {
     const newFolder = JSON.stringify({
       folder_name: this.state.name.value
     })
+    console.log(newFolder)
 
-    fetch(`${config.API_ENDPOINT}/noteful_folders`, {
+    fetch(`${config.API_ENDPOINT}/folders`, {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -48,6 +49,7 @@ export default class AddFolder extends Component {
       value: name,
       touched: true
     }})
+    console.log(name)
   }
 
   validateFolderName = () => {
