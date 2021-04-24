@@ -1,79 +1,61 @@
-import React, { Component } from "react";
-import ApiContext from '../ApiContext';
-import config from '../config';
-import PropTypes from 'prop-types';
-import ValidationError from '../ValidationError';
+import React, { Component } from 'react'
+import NotefulForm from '../NotefulForm/NotefulForm'
+import ApiContext from '../ApiContext'
+import config from '../config'
+import './AddFolder.css'
 
 export default class AddFolder extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      name: {
-        value: '',
-        touched: false
-      }
-    }
+  static defaultProps = {
+    history: {
+      push: () => { }
+    },
   }
-
   static contextType = ApiContext;
 
-  handleAddFolder = (e) => {
-    e.preventDefault();
-
-    const newFolder = JSON.stringify({
-      folder_name: this.state.name.value
-    })
-    console.log(newFolder)
-
+  handleSubmit = e => {
+    e.preventDefault()
+    const folder = {
+      title: e.target['folder-name'].value
+    }
     fetch(`${config.API_ENDPOINT}/folders`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json"
+        'content-type': 'application/json'
       },
-      body: newFolder
+      body: JSON.stringify(folder),
     })
       .then(res => {
-        if (!res.ok) return res.json().then(e => Promise.reject(e))
+        if (!res.ok)
+          return res.json().then(e => Promise.reject(e))
         return res.json()
       })
-      .then(response => this.context.addFolder(response))
-      .then(
-        this.props.history.push('/'))
+      .then(folder => {
+        this.context.addFolder(folder)
+        this.props.history.push(`/folder/${folder.id}`)
+      })
       .catch(error => {
-        alert(error.message);
-      });
-  };
-
-  getFolderName = (name) => {
-    this.setState({name: {
-      value: name,
-      touched: true
-    }})
-    console.log(name)
+        console.error({ error })
+      })
   }
-
-  validateFolderName = () => {
-    let folderName = this.state.name.value.trim();
-
-    if (folderName.length === 0){
-      return 'Folder name is required'
-    }
-}
 
   render() {
     return (
-      <form className='addNoteOrFolder' onSubmit={this.handleAddFolder}>
-        <div>
-          <label htmlFor="folderName">Folder Name: </label>
-          <input type="text" id="folderName" onChange={e => this.getFolderName(e.target.value) } />
-          {this.state.name.touched && (<ValidationError message = {this.validateFolderName()}/>)}
-          <button disabled={this.validateFolderName()} type="submit">Submit</button>
-        </div>
-      </form>
-    );
+      <section className='AddFolder'>
+        <h2>Create a folder</h2>
+        <NotefulForm onSubmit={this.handleSubmit}>
+          <div className='field'>
+            <label htmlFor='folder-name-input'>
+              Name
+            </label>
+            <input type='text' id='folder-name-input' name='folder-name' />
+          </div>
+          <div className='buttons'>
+            <button type='submit'>
+              Add folder
+            </button>
+          </div>
+        </NotefulForm>
+      </section>
+    )
   }
-}
-
-AddFolder.propTypes = {
-  addFolder: PropTypes.func
 }
