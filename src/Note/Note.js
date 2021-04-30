@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { format } from 'date-fns'
+//import { format } from 'date-fns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ApiContext from '../ApiContext'
 import config from '../config'
@@ -38,7 +38,7 @@ export default class Note extends React.Component {
   }
 
   render() {
-    const { title, id, modified } = this.props
+    const { title, id, date_published } = this.props
     return (
       <div className='Note'>
         <h2 className='Note__title'>
@@ -60,7 +60,8 @@ export default class Note extends React.Component {
             date_published
             {' '}
             <span className='Date'>
-              {/* {format(modified, 'Do MMM YYYY')} */}
+            {date_published}
+              {/* {format(date_published, 'Do MMM YYYY')} */}
             </span>
           </div>
         </div>

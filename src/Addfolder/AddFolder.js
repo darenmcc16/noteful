@@ -21,7 +21,7 @@ export default class AddFolder extends Component {
     e.preventDefault();
 
     const newFolder = JSON.stringify({
-      folder_name: this.state.name.value
+      title: this.state.name.value
     })
     console.log(newFolder)
 
