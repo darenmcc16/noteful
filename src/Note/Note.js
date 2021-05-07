@@ -12,6 +12,10 @@ export default class Note extends React.Component {
   }
   static contextType = ApiContext;
 
+  handleDeleteNote = noteId => {
+    this.props.history.push(`/`)
+  }
+
   handleClickDelete = e => {
     e.preventDefault()
     const noteId = this.props.id
@@ -30,11 +34,12 @@ export default class Note extends React.Component {
       .then(() => {
         this.context.deleteNote(noteId)
         // allow parent to perform extra behaviour
-        this.props.onDeleteNote(noteId)
+        this.handleDeleteNote(noteId)
       })
-      .catch(error => {
-        console.error({ error })
-      })
+      // .catch(error => {
+      //   console.error({ error })
+      // })
+      window.location = '/'
   }
 
   render() {
